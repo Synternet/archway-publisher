@@ -1,0 +1,7 @@
+*.json
+*.pem
+*.key
+*.creds
+*.jwt
+.env
+dist/
