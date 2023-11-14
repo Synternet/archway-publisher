@@ -1,0 +1,18 @@
+---
+version: "3"
+
+services:
+  node:
+    image: ghcr.io/archway-network/archwayd-dev:${TAG}
+    entrypoint:
+      - sh
+      - /opt/localnet.sh
+      - ${CONTINUE}
+    ports:
+      - 9090:9090
+      - 26657:26657
+      - 26656:26656
+    volumes:
+      - ./scripts:/opt:z
+      - ./contracts:/contracts:z
+    working_dir: /opt

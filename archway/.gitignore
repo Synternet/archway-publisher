@@ -1,0 +1,9 @@
+contracts/*.wasm
+target/
+build/
+
+.idea/
+.vscode/
+
+dist/
+data/

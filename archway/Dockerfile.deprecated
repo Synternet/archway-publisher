@@ -1,0 +1,53 @@
+FROM golang:1.19.5-alpine3.17 AS go-builder
+# arch can be either x86_64 for amd64 or aarch64 for arm
+ARG arch=x86_64
+ARG libwasmvm_version=v1.4.1
+ARG libwasmvm_aarch64_sha=a8259ba852f1b68f2a5f8eb666a9c7f1680196562022f71bb361be1472a83cfd
+ARG libwasmvm_amd64_sha=324c1073cb988478d644861783ed5a7de21cfd090976ccc6b1de0559098fbbad
+
+# this comes from standard alpine nightly file
+#  https://github.com/rust-lang/docker-rust-nightly/blob/master/alpine3.12/Dockerfile
+# with some changes to support our toolchain, etc
+RUN set -eux; apk add --no-cache ca-certificates build-base;
+
+RUN apk add git
+# NOTE: add these to run with LEDGER_ENABLED=true
+# RUN apk add libusb-dev linux-headers
+
+WORKDIR /code
+COPY . /code/
+
+# See https://github.com/CosmWasm/wasmvm/releases
+ADD https://github.com/CosmWasm/wasmvm/releases/download/$libwasmvm_version/libwasmvm_muslc.aarch64.a /lib/libwasmvm_muslc.aarch64.a
+ADD https://github.com/CosmWasm/wasmvm/releases/download/$libwasmvm_version/libwasmvm_muslc.x86_64.a /lib/libwasmvm_muslc.x86_64.a
+RUN sha256sum /lib/libwasmvm_muslc.aarch64.a | grep $libwasmvm_aarch64_sha
+RUN sha256sum /lib/libwasmvm_muslc.x86_64.a | grep $libwasmvm_amd64_sha
+
+# Copy the library you want to the final location that will be found by the linker flag `-lwasmvm_muslc`
+RUN cp /lib/libwasmvm_muslc.${arch}.a /lib/libwasmvm_muslc.a
+
+# force it to use static lib (from above) not standard libgo_cosmwasm.so file
+RUN LEDGER_ENABLED=false BUILD_TAGS=muslc LINK_STATICALLY=true make build
+RUN echo "Ensuring binary is statically linked ..." \
+  && (file /code/build/archwayd | grep "statically linked")
+
+# --------------------------------------------------------
+FROM alpine:3.17
+
+COPY --from=go-builder /code/build/archwayd /usr/bin/archwayd
+
+WORKDIR /root/.archway
+
+# safety check to ensure deps are correct
+RUN archwayd ensure-binary
+
+# rest server
+EXPOSE 1317
+# tendermint p2p
+EXPOSE 26656
+# tendermint rpc
+EXPOSE 26657
+
+ENTRYPOINT [ "/usr/bin/archwayd" ]
+
+CMD [ "help" ]
