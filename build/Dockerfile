@@ -18,7 +18,7 @@ RUN CGO_ENABLED=0 go build -v -o . -ldflags="-w -s" .
 #
 # 2. Runtime Container
 #
-FROM alpine as osmosis-publisher
+FROM alpine as archway-publisher
 
 ENV TZ=Europe/Vilnius \
     PATH="/app:${PATH}"
