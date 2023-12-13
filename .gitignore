@@ -5,3 +5,5 @@
 *.jwt
 .env
 dist/
+*.so
+*.dll

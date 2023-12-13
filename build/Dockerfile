@@ -7,13 +7,14 @@ ARG CI_JOB_TOKEN
 ARG CI_SERVER_HOST
 ARG GITHUB_PAT
 
-COPY go.mod go.sum /home/src/
+COPY archway /home/src/archway
+COPY go.mod go.sum Makefile /home/src/
 WORKDIR /home/src
 RUN go mod download
-COPY . /home/src
+COPY . /home/src/
 
 # Build components.
-RUN CGO_ENABLED=0 go build -v -o . -ldflags="-w -s" .
+RUN make build
 
 #
 # 2. Runtime Container
@@ -32,6 +33,7 @@ RUN apk add --update --no-cache \
     echo "${TZ}" > /etc/timezone
 
 WORKDIR /home/app
-COPY --from=build /home/src/archway-publisher .
+COPY --from=build /home/src/dist/archway-publisher .
+COPY --from=build /home/src/dist/libwasmvm.x86_64.so .
 
-CMD ["sh", "-c", "./archway-publisher --nats ${NATS_HOSTS} --nats-jwt ${NATS_JWT} --nats-nkey ${NATS_NKEY} start"]
+CMD ["sh", "-c", "LDLIBRARY_PATH=. ./archway-publisher --nats ${NATS_HOSTS} --nats-jwt ${NATS_JWT} --nats-nkey ${NATS_NKEY} start"]

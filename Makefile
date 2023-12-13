@@ -1,5 +1,3 @@
-NATS_SERVER=34.107.87.29
-
 # Define the paths to the source code and build artifacts
 SRC_PATH=.
 DIST_PATH=./dist
@@ -25,17 +23,19 @@ all: build
 
 .PHONY: gen
 gen:
-	# Run go generate to generate any required files
+	@echo Run go generate to generate any required files
 	go generate ./...
 
 .PHONY: build
 build:
-	# Build the production binary
+	@echo Build the production binary
 	CGO_ENABLED=1 go build $(BUILD_FLAGS) -o $(DIST_PATH)/$(BINARY_NAME) $(SRC_PATH)
+	@echo Copy libwasmvm library
+	ldd dist/archway-publisher | grep "libwasmvm.*.so" | awk '{print \$3}' | xargs -I '{}' cp '{}' ./dist
 
 .PHONY: build-debug
 build-debug:
-	# Build the debug binary
+	@echo Build the debug binary
 	go build -o $(DIST_PATH)/$(BINARY_NAME) $(SRC_PATH)
 
 .PHONY: test
@@ -44,22 +44,22 @@ test:
 
 .PHONY: serve
 serve:
-	# Run the development version of the program
+	@echo Run the development version of the program
 	$(DEV_CMD)
 
 .PHONY: docker-build
 docker-build:
-	# Build the production Docker image
+	@echo Build the production Docker image
 	docker build -f $(DOCKERFILE_PROD) -t $(DOCKER_IMAGE_NAME):latest .
 
 .PHONY: docker-build-dev
 docker-build-dev:
-	# Build the development Docker image
+	@echo Build the development Docker image
 	docker build -f $(DOCKERFILE_DEV) -t $(DOCKER_IMAGE_NAME):dev .
 
 .PHONY: clean
 clean:
-	# Remove the build artifacts
+	@echo Remove the build artifacts
 	rm -rf $(DIST_PATH)
 
 .PHONY: all-tests
