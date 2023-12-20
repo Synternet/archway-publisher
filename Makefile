@@ -31,7 +31,7 @@ build:
 	@echo Build the production binary
 	CGO_ENABLED=1 go build $(BUILD_FLAGS) -o $(DIST_PATH)/$(BINARY_NAME) $(SRC_PATH)
 	@echo Copy libwasmvm library
-	ldd dist/archway-publisher | grep "libwasmvm.*.so" | awk '{print \$3}' | xargs -I '{}' cp '{}' ./dist
+	ldd $(DIST_PATH)/$(BINARY_NAME) | grep "libwasmvm.*.so" | awk '{print $$3}' | xargs -I '{}' cp '{}' $(DIST_PATH)
 
 .PHONY: build-debug
 build-debug:
