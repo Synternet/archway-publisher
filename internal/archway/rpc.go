@@ -10,7 +10,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/syntropynet/archway-publisher/pkg/types"
+	"github.com/synternet/archway-publisher/pkg/types"
 
 	"golang.org/x/sync/errgroup"
 	"google.golang.org/grpc"
@@ -87,7 +87,6 @@ func newRpc(ctx context.Context, cancel context.CancelCauseFunc, group *errgroup
 		grpcUrl,
 		grpc.WithInsecure(),
 	)
-
 	if err != nil {
 		return nil, err
 	}

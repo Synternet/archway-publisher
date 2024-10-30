@@ -7,8 +7,8 @@ import (
 	"os/signal"
 
 	"github.com/spf13/cobra"
-	"github.com/syntropynet/archway-publisher/internal/archway"
-	"github.com/syntropynet/data-layer-sdk/pkg/service"
+	"github.com/synternet/archway-publisher/internal/archway"
+	"github.com/synternet/data-layer-sdk/pkg/service"
 )
 
 var (

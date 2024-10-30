@@ -67,7 +67,7 @@ all-tests: test docker-build
 
 .PHONY: monitor
 monitor:
-	nats --server $(NATS_SERVER) --creds ../nats.creds sub "syntropy.archway.>" | awk 'BEGIN { RS="\\n\\[#"; ORS="" } /Received on "syntropy.archway.telemetry"/ { block = 1; next } /^$/ { block = 0; next } !block'
+	nats --server $(NATS_SERVER) --creds ../nats.creds sub "synternet.archway.>" | awk 'BEGIN { RS="\\n\\[#"; ORS="" } /Received on "synternet.archway.telemetry"/ { block = 1; next } /^$/ { block = 0; next } !block'
 
 
 .PHONY: help

@@ -7,7 +7,7 @@ import (
 
 	"github.com/nats-io/nats.go"
 	"github.com/spf13/cobra"
-	"github.com/syntropynet/data-layer-sdk/pkg/options"
+	"github.com/synternet/data-layer-sdk/pkg/options"
 )
 
 var (
@@ -58,7 +58,7 @@ func init() {
 		PUBLISHER_IDENTITY = "PUBLISHER_IDENTITY"
 		PUBLISHER_PREFIX   = "PUBLISHER_PREFIX"
 	)
-	setDefault(PUBLISHER_PREFIX, "syntropy")
+	setDefault(PUBLISHER_PREFIX, "synternet")
 
 	flagNatsUrls = rootCmd.PersistentFlags().StringP("nats", "n", os.Getenv("NATS_URL"), "NATS server URLs (separated by comma)")
 	flagUserCreds = rootCmd.PersistentFlags().StringP("nats-creds", "c", os.Getenv("NATS_CREDS"), "NATS User Credentials File (combined JWT and NKey file) ")

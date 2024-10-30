@@ -7,7 +7,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/syntropynet/archway-publisher/pkg/types"
+	"github.com/synternet/archway-publisher/pkg/types"
 
 	ibctypes "github.com/cosmos/ibc-go/v7/modules/apps/transfer/types"
 

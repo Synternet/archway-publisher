@@ -1,6 +1,6 @@
 # Archway blockchain data publisher
 
-[![Latest release](https://img.shields.io/github/v/release/SyntropyNet/archway-publisher)](https://github.com/SyntropyNet/archway-publisher/releases/latest)
+[![Latest release](https://img.shields.io/github/v/release/synternet/archway-publisher)](https://github.com/synternet/archway-publisher/releases/latest)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Getting Started
@@ -9,7 +9,7 @@
 
 Before you start using (modifying) Archway blockchain data publisher locally, there are some prerequisites you need to fulfill:
 
-* Access to Syntropy Data Layer and its streams - [Developer Portal](https://developer-portal.syntropynet.com/)
+* Access to Synternet Data Layer and its streams - [Developer Portal](https://portal.synternet.com/)
   * A Registered Publisher Profile
   * Generated User JWT token and NKey Seed
 * Go (Golang 1.20) - [Install Go](https://go.dev/doc/install)
@@ -114,7 +114,7 @@ copy `libwasmvm.x86_64.so`(if the target architecture is x86_64) to `/usr/local/
 You can find the path to this library by using `ldd` tool like this:
 
 ```bash
-ldd dist/archway-publisher 
+ldd dist/archway-publisher
 ```
 
 Then the output will contain something like this (look for a line with `libwasmvm` - the exact file will depend on your host architecture):
@@ -164,13 +164,13 @@ As this is a barebones Archway blockchain data publisher, there is a lot of room
 
 We welcome contributions from the community. Whether it's a bug report, a new feature, or a code fix, your input is valued and appreciated.
 
-## Syntropy
+## Synternet
 
 If you have any questions, ideas, or simply want to connect with us, we encourage you to reach out through any of the following channels:
 
-* **Discord**: Join our vibrant community on Discord at [https://discord.com/invite/jqZur5S3KZ](https://discord.com/invite/jqZur5S3KZ). Engage in discussions, seek assistance, and collaborate with like-minded individuals.
-* **Telegram**: Connect with us on Telegram at [https://t.me/SyntropyNet](https://t.me/SyntropyNet). Stay updated with the latest news, announcements, and interact with our team members and community.
-* **Email**: If you prefer email communication, feel free to reach out to us at <devrel@syntropynet.com>. We're here to address your inquiries, provide support, and explore collaboration opportunities.
+* **Discord**: Join our vibrant community on Discord at [https://discord.gg/synternet](https://discord.gg/synternet). Engage in discussions, seek assistance, and collaborate with like-minded individuals.
+* **Telegram**: Connect with us on Telegram at [https://t.me/synternet](https://t.me/synternet). Stay updated with the latest news, announcements, and interact with our team members and community.
+* **Email**: If you prefer email communication, feel free to reach out to us at <info@synternet.com>. We're here to address your inquiries, provide support, and explore collaboration opportunities.
 
 ## License
 

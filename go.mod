@@ -1,8 +1,8 @@
-module github.com/syntropynet/archway-publisher
+module github.com/synternet/archway-publisher
 
 go 1.20
 
-require github.com/syntropynet/data-layer-sdk v0.1.0
+require github.com/synternet/data-layer-sdk v0.1.0
 
 require (
 	github.com/archway-network/archway v0.0.0-00010101000000-000000000000
