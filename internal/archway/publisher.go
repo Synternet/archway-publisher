@@ -2,6 +2,7 @@ package archway
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"log"
@@ -55,7 +56,13 @@ func (p *Publisher) Start() context.Context {
 
 	err := p.rpc.Subscribe(func(msg any, suffixes ...string) error {
 		p.publishedMessages.Add(1)
-		return p.Publish(msg, suffixes...)
+
+		data, err := json.Marshal(msg)
+		if err != nil {
+			return fmt.Errorf("marshalling header data: %s", err.Error())
+		}
+
+		return p.PublishBuf(data, suffixes...)
 	})
 	if err != nil {
 		p.Fail(err)
@@ -113,9 +120,9 @@ func (p *Publisher) Close() error {
 	return errors.Join(err...)
 }
 
-func (p *Publisher) getStatus() map[string]any {
-	return map[string]any{
-		"mempool.txs": p.mempoolMessages.Swap(0),
-		"published":   p.publishedMessages.Swap(0),
+func (p *Publisher) getStatus() map[string]string {
+	return map[string]string{
+		"mempool.txs": string(p.mempoolMessages.Swap(0)),
+		"published":   string(p.publishedMessages.Swap(0)),
 	}
 }

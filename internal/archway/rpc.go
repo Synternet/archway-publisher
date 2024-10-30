@@ -3,6 +3,7 @@ package archway
 import (
 	"context"
 	"encoding/hex"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"log"
@@ -191,26 +192,27 @@ func (c *rpc) Mempool() ([]*types.Transaction, error) {
 	return txs, nil
 }
 
-func (p *rpc) getStatus() map[string]any {
+func (p *rpc) getStatus() map[string]string {
 	queueSize := p.queueMaxSize.Swap(0)
 	if queueSize > p.maxQueueSize {
 		p.maxQueueSize = queueSize
 	}
 
-	return map[string]any{
-		"ibc": map[string]any{
-			"tokens":       len(p.ibcTraceCache),
-			"cache_misses": p.ibcMisses.Load(),
-		},
-		"blocks": p.blockCounter.Swap(0),
-		"txs":    p.txCounter.Swap(0),
-		"errors": p.errCounter.Swap(0),
-		"events": map[string]any{
-			"total":     p.evtCounter.Swap(0),
-			"other":     p.evtOtherCounter.Swap(0),
-			"skipped":   p.evtSkipCounter.Load(),
-			"queue":     queueSize,
-			"max_queue": p.maxQueueSize,
-		},
+	ibcJSON, _ := json.Marshal(map[string]string{
+		"tokens":       string(len(p.ibcTraceCache)),
+		"cache_misses": string(p.ibcMisses.Load()),
+	})
+	eventsJSON, _ := json.Marshal(map[string]string{
+		"total":   string(p.evtCounter.Swap(0)),
+		"other":   string(p.evtOtherCounter.Swap(0)),
+		"skipped": string(p.evtSkipCounter.Load()),
+	})
+
+	return map[string]string{
+		"ibc":    string(ibcJSON),
+		"blocks": string(p.blockCounter.Swap(0)),
+		"txs":    string(p.txCounter.Swap(0)),
+		"errors": string(p.errCounter.Swap(0)),
+		"events": string(eventsJSON),
 	}
 }

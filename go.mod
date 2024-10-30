@@ -1,8 +1,8 @@
 module github.com/synternet/archway-publisher
 
-go 1.20
+go 1.21
 
-require github.com/synternet/data-layer-sdk v0.1.0
+toolchain go1.21.1
 
 require (
 	github.com/archway-network/archway v0.0.0-00010101000000-000000000000
@@ -11,6 +11,7 @@ require (
 	github.com/cosmos/ibc-go/v7 v7.3.0
 	github.com/nats-io/nats.go v1.25.0
 	github.com/spf13/cobra v1.7.0
+	github.com/synternet/data-layer-sdk v0.4.2
 	golang.org/x/sync v0.4.0
 	google.golang.org/grpc v1.57.0
 )
